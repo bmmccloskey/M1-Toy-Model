@@ -2,12 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # M1 as a 2D linear rotational dynamical system
-# State x = [x1, x2] lives in a (tiny) neuron state space!
-# dx/dt = Ax -> linear & autonomous 
 
-omega = 10     # ROTATION FREQUENCY (rad/s)
-lam   = 1                 # DAMPING (1/s)
-x0  = [1,1]
+# State x = [x1, x2] lives in a (tiny) neuron state space!
+# The activity trajectory over time is modeled by a system of linear, autonomous differential equations: dx/dt = Ax. 
+# Reach (movement) direction is encoded as a starting point, all with the same A.
+
+omega = 10     # ROTATION FREQUENCY (rad/s) = imaginary part of eigenvalues
+lam   = 1      # DAMPING (1/s) = magnitude of real part of eigenvalues (real part is -lam, so lam>0 -> decay)
+x0  = [1,0]    # Initial state
 
 A = np.array([[-lam, -omega],
               [ omega, -lam]])
