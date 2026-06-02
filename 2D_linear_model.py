@@ -9,23 +9,23 @@ import matplotlib.pyplot as plt
 
 omega = 10     # ROTATION FREQUENCY (rad/s) = imaginary part of eigenvalues
 lam   = 1      # DAMPING (1/s) = magnitude of real part of eigenvalues (real part is -lam, so lam>0 -> decay)
-x0  = [1,0]    # Initial state
+x0  = [1,0]    # initial state
 
 A = np.array([[-lam, -omega],
               [ omega, -lam]])
 
-print("eigenvalues:", np.linalg.eigvals(A))   # -lam ± i*omega
+print("eigenvalues:", np.linalg.eigvals(A)) # -lam ± i*omega
 
-def simulate(x0, T=4, dt=4e-3): # initial state; total simulation time; time step
-    n = int(T / dt) # total steps
-    X = np.zeros((n, 2)); X[0] = x0 # pre allocate array for the state at each time step
+def simulate(x0, T=4, dt=4e-3):         # initial state; total simulation time; time step
+    n = int(T / dt)                     # total steps
+    X = np.zeros((n, 2)); X[0] = x0     # pre allocate array for the state at each time step
     for t in range(n - 1):
-        X[t+1] = X[t] + dt * (A @ X[t])         # next state = the current state + dx/dt * time step (Euler's method)
+        X[t+1] = X[t] + dt * (A @ X[t]) # next state = the current state + time step * dx/dt (Euler's method)
     return X
 
 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10, 4.5))
 X = simulate(x0)
-ax1.plot(X[:, 0], X[:, 1])              # state-space trajectory
+ax1.plot(X[:, 0], X[:, 1])              # state space trajectory
 ax1.plot(*x0, 'o')                      # initial condition point
 ax2.plot(X[:, 0])                       # dim 1 over time
 ax3.plot(X[:, 1])                       # dim 2 over time
