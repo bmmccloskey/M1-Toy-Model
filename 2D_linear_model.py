@@ -8,8 +8,11 @@ import matplotlib.pyplot as plt
 # Reach (movement) direction is encoded as a starting point, all with the same A.
 
 omega = 10     # ROTATION FREQUENCY (rad/s) = imaginary part of eigenvalues
-lam   = 9      # DAMPING (1/s) = magnitude of real part of eigenvalues (real part is -lam, so lam>0 -> decay)
+lam   = 1      # DAMPING (1/s) = magnitude of real part of eigenvalues (real part is -lam, so lam>0 -> decay)
 x0  = [1,0]    # initial state
+
+# NOTE: Euler's method is only stable when |1 + dt*(-lam + i*omega)| < 1 (aka dt < 2*lam / (lam**2 + omega**2). High omega or low lambda 
+# shrinks this. Exceeding it will cause the trajectory to spiral outward instead of decay. Lowering dt will probably fix it.
 
 A = np.array([[-lam, -omega],
               [ omega, -lam]])
@@ -18,7 +21,9 @@ print("eigenvalues:", np.linalg.eigvals(A)) # -lam ± i*omega
 
 def simulate(x0, T=4, dt=4e-3):         # initial state; total simulation time; time step
     n = int(T / dt)                     # total steps
-    X = np.zeros((n, 2)); X[0] = x0     # pre allocate array for the state at each time step
+    X = np.zeros((n, 2))                # pre allocate array (n rows, 2 columns) for the state at each time step
+    X[0] = x0     
+
     for t in range(n - 1):
         X[t+1] = X[t] + dt * (A @ X[t]) # next state = the current state + time step * dx/dt (Euler's method)
     return X
