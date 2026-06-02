@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # Reach (movement) direction is encoded as a starting point, all with the same A.
 
 omega = 10     # ROTATION FREQUENCY (rad/s) = imaginary part of eigenvalues
-lam   = 1      # DAMPING (1/s) = magnitude of real part of eigenvalues (real part is -lam, so lam>0 -> decay)
+lam   = 9      # DAMPING (1/s) = magnitude of real part of eigenvalues (real part is -lam, so lam>0 -> decay)
 x0  = [1,0]    # initial state
 
 A = np.array([[-lam, -omega],
